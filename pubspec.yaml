@@ -1,0 +1,17 @@
+name: flexi_page_view
+description: "A new Flutter project."
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: ^3.7.2
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  lint: ^2.3.0

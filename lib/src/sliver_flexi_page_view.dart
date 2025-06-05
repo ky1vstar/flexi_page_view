@@ -1,10 +1,10 @@
 import 'dart:math' as math;
 import 'dart:ui';
 
+import 'package:flexi_page_view/src/unbounded_viewport.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flexi_page_view/src/unbounded_viewport.dart';
 
 /// A sliver that contains multiple box children that each fills the viewport.
 ///
@@ -261,7 +261,7 @@ class RenderFlexiPageView extends RenderSliverFillViewport {
           max = computeMaxScrollOffset(constraints, deprecatedExtraItemExtent);
         }
         geometry = SliverGeometry(scrollExtent: max, maxPaintExtent: max);
-        _finzlizeGeometry();
+        _finalizeGeometry();
         childManager.didFinishLayout();
         return;
       }
@@ -277,7 +277,7 @@ class RenderFlexiPageView extends RenderSliverFillViewport {
         // Reset the scroll offset to offset all items prior and up to the
         // missing item. Let parent re-layout everything.
         geometry = SliverGeometry(scrollOffsetCorrection: indexToLayoutOffset(deprecatedExtraItemExtent, index));
-        _finzlizeGeometry();
+        _finalizeGeometry();
         return;
       }
       final SliverMultiBoxAdaptorParentData childParentData = child.parentData! as SliverMultiBoxAdaptorParentData;
@@ -359,7 +359,7 @@ class RenderFlexiPageView extends RenderSliverFillViewport {
       hasVisualOverflow:
           (targetLastIndexForPaint != null && lastIndex >= targetLastIndexForPaint) || constraints.scrollOffset > 0.0,
     );
-    _finzlizeGeometry();
+    _finalizeGeometry();
 
     // We may have started the layout while scrolled to the end, which would not
     // expose a new child.
@@ -388,7 +388,7 @@ class RenderFlexiPageView extends RenderSliverFillViewport {
     _laidOutChildren[index] = child;
   }
 
-  void _finzlizeGeometry() {
+  void _finalizeGeometry() {
     final geometry = this.geometry;
     final constraints = this.constraints;
     if (geometry == null || _laidOutChildren.isEmpty) {
@@ -397,7 +397,7 @@ class RenderFlexiPageView extends RenderSliverFillViewport {
     final page = _getPage();
     final fromChild = _laidOutChildren[page.floor()];
     final toChild = _laidOutChildren[page.ceil()];
-    final crossAxisSize =
+    var crossAxisSize =
         _lerpDouble(
           fromChild?.size.crossAxisDimension(constraints.axis),
           toChild?.size.crossAxisDimension(constraints.axis),
@@ -406,6 +406,8 @@ class RenderFlexiPageView extends RenderSliverFillViewport {
         0;
     this.geometry = UnboundedSliverGeometry(existing: geometry, crossAxisSize: crossAxisSize);
 
+    final minCrossAxisSize = constraints.crossAxisExtent; // as passed in by UnboundedViewport
+    crossAxisSize = math.max(minCrossAxisSize, crossAxisSize);
     for (final child in _laidOutChildren.values) {
       final childParentData = child.parentData! as _SliverFlexiPageViewParentData;
       final center = (crossAxisSize - child.size.crossAxisDimension(constraints.axis)) / 2;
@@ -415,7 +417,9 @@ class RenderFlexiPageView extends RenderSliverFillViewport {
 
   double _getPage() {
     final viewportDimension = constraints.viewportMainAxisExtent;
-    assert(viewportDimension > 0.0);
+    if (viewportDimension <= 0.0) {
+      return 0.0;
+    }
     final initialPageOffset = math.max(0, viewportDimension * (viewportFraction - 1) / 2);
     final actual = math.max(0.0, constraints.scrollOffset - initialPageOffset) / (viewportDimension * viewportFraction);
     final round = actual.roundToDouble();

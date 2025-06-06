@@ -195,10 +195,11 @@ class RenderFlexiPageView extends RenderSliverFillViewport {
       extent = itemExtentBuilder!(index, _currentLayoutDimensions)!;
     }
     var childConstraints = constraints.asBoxConstraints(minExtent: extent, maxExtent: extent);
+    // TODO: Pass real maxWidth/maxHeight from parent
     if (constraints.axis == Axis.horizontal) {
-      childConstraints = childConstraints.copyWith(minHeight: 0);
+      childConstraints = childConstraints.copyWith(minHeight: 0, maxHeight: double.infinity);
     } else {
-      childConstraints = childConstraints.copyWith(minWidth: 0);
+      childConstraints = childConstraints.copyWith(minWidth: 0, maxWidth: double.infinity);
     }
     return childConstraints;
   }

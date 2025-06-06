@@ -251,7 +251,7 @@ void main() {
         MaterialApp(
           home: PageView(
             children: List<Widget>.generate(10, (int i) {
-              return Container(key: ValueKey<int>(i), color: const Color(0xFF0000FF));
+              return Container(key: ValueKey<int>(i), height: 600, color: const Color(0xFF0000FF));
             }),
           ),
         ),
@@ -815,7 +815,10 @@ void main() {
           controller: controller,
           itemCount: 20,
           itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(onTap: () => tappedIndex = index, child: SizedBox.expand(child: Text('$index')));
+            return GestureDetector(
+              onTap: () => tappedIndex = index,
+              child: SizedBox(width: double.infinity, child: Text('$index')),
+            );
           },
         ),
       );

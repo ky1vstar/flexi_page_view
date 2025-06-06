@@ -1,39 +1,78 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# FlexiPageView
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+`FlexiPageView` is a drop-in replacement for Flutter's `PageView` widget. It provides the same API as `PageView` while dynamically adjusting its height (cross-axis dimension) to match the height of the currently visible page. This makes it ideal for scenarios where pages have varying heights.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- **Dynamic Height Adjustment**: The height of `FlexiPageView` smoothly transitions to match the height of the currently visible page.
+- **Drop-in Replacement**: Fully compatible with the `PageView` API, making it easy to integrate into existing projects.
+- **Customizable**: Supports all standard `PageView` properties, such as `controller`, `scrollDirection`, and `physics`.
 
-## Getting started
+## Installation
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Add the following dependency to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  flexi_page_view: <latest_version>
+```
+
+Run `flutter pub get` to fetch the package.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+Replace your `PageView` widget with `FlexiPageView`. The API remains the same, but now the height of the widget will dynamically adjust based on the height of the current page.
+
+### Example
 
 ```dart
-const like = 'sample';
+import 'package:flexi_page_view/flexi_page_view.dart';
+
+class ExamplePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: FlexiPageView(
+        children: [
+          Container(
+            height: 100,
+            color: Colors.red,
+            child: Center(child: Text('Page 1')),
+          ),
+          Container(
+            height: 200,
+            color: Colors.green,
+            child: Center(child: Text('Page 2')),
+          ),
+          Container(
+            height: 150,
+            color: Colors.blue,
+            child: Center(child: Text('Page 3')),
+          ),
+        ],
+      ),
+    );
+  }
+}
 ```
 
-## Additional information
+### Key Properties
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+`FlexiPageView` supports all properties of `PageView`, including:
+
+- `controller`: Controls the page view's scrolling behavior.
+- `scrollDirection`: Specifies the axis along which the pages scroll (`Axis.horizontal` or `Axis.vertical`).
+- `physics`: Defines the scroll physics for the page view.
+- `children`: A list of widgets representing the pages.
+
+## How It Works
+
+`FlexiPageView` calculates the height of the currently visible page and smoothly animates the widget's height during page transitions. This ensures a seamless user experience when navigating between pages with different heights.
+
+## Compatibility
+
+`FlexiPageView` is compatible with all Flutter versions that support `PageView`. It can be used in any project where dynamic height adjustment is required.
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.

@@ -6,6 +6,18 @@ import 'package:flutter/widgets.dart';
 
 const _kPagePhysics = PageScrollPhysics();
 
+/// A scrollable list that adjusts its height dynamically to match the height
+/// (cross-axis dimension) of the current page.
+///
+/// If the first page has a height of 100px and the second page has a height of
+/// 200px, the [FlexiPageView] will be 100px tall on the first page, 150px tall
+/// in the middle of scrolling between the first and second pages, and 200px
+/// tall on the second page.
+///
+/// This behavior ensures that the [FlexiPageView] smoothly transitions its
+/// height during page scrolling, providing a visually adaptive experience.
+///
+/// {@macro flutter.widgets.PageView.allowImplicitScrolling}
 class FlexiPageView extends StatefulWidget {
   /// Creates a scrollable list that works page by page from an explicit [List]
   /// of widgets.
@@ -19,12 +31,7 @@ class FlexiPageView extends StatefulWidget {
   /// the [children] list will not be mutated after it has been passed in here.
   /// See the documentation at [SliverChildListDelegate.children] for more details.
   ///
-  /// {@template flutter.widgets.PageView.allowImplicitScrolling}
-  /// If [allowImplicitScrolling] is true, the [PageView] will participate in
-  /// accessibility scrolling more like a [ListView], where implicit scroll
-  /// actions will move to the next page rather than into the contents of the
-  /// [PageView].
-  /// {@endtemplate}
+  /// {@macro flutter.widgets.PageView.allowImplicitScrolling}
   FlexiPageView({
     super.key,
     this.scrollDirection = Axis.horizontal,
@@ -59,14 +66,7 @@ class FlexiPageView extends StatefulWidget {
   ///
   /// {@macro flutter.widgets.ListView.builder.itemBuilder}
   ///
-  /// {@template flutter.widgets.PageView.findChildIndexCallback}
-  /// The [findChildIndexCallback] corresponds to the
-  /// [SliverChildBuilderDelegate.findChildIndexCallback] property. If null,
-  /// a child widget may not map to its existing [RenderObject] when the order
-  /// of children returned from the children builder changes.
-  /// This may result in state-loss. This callback needs to be implemented if
-  /// the order of the children may change at a later time.
-  /// {@endtemplate}
+  /// {@macro flutter.widgets.PageView.findChildIndexCallback}
   ///
   /// {@macro flutter.widgets.PageView.allowImplicitScrolling}
   FlexiPageView.builder({
@@ -148,6 +148,14 @@ class FlexiPageView extends StatefulWidget {
   /// Defaults to [Axis.horizontal].
   final Axis scrollDirection;
 
+  /// The alignment of the pages within the viewport.
+  ///
+  /// This property determines how the pages are positioned along the cross-axis
+  /// (e.g., vertically for a horizontal scroll direction). For example:
+  /// - [AlignmentDirectional.topStart] aligns pages to the top.
+  /// - [AlignmentDirectional.center] centers pages within the viewport.
+  ///
+  /// Defaults to [AlignmentDirectional.topStart].
   final AlignmentGeometry alignment;
 
   /// Whether the page view scrolls in the reading direction.

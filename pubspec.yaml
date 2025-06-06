@@ -1,7 +1,9 @@
 name: flexi_page_view
-description: "A new Flutter project."
-version: 0.0.1
-homepage:
+description: A Flutter widget that dynamically adjusts its height to match the height of the currently visible page, serving as a drop-in replacement for PageView.
+version: 1.0.0
+homepage: https://github.com/ky1vstar/flexi_page_view
+repository: https://github.com/ky1vstar/flexi_page_view
+issue_tracker: https://github.com/ky1vstar/flexi_page_view/issues
 
 environment:
   sdk: ^3.7.2

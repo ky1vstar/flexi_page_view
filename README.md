@@ -4,6 +4,8 @@
 as `PageView` while dynamically adjusting its height (cross-axis dimension) to match the height of
 the currently visible page. This makes it ideal for scenarios where pages have varying heights.
 
+[**Web Demo is available here**](https://ky1vstar.github.io/flexi_page_view/)
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/ky1vstar/flexi_page_view/refs/heads/master/assets/demo.gif" alt="">
 </p>

@@ -73,9 +73,9 @@ class SliverFlexiPageView extends StatelessWidget {
 
 class _SliverUnboundedFractionalPadding extends SingleChildRenderObjectWidget {
   const _SliverUnboundedFractionalPadding({this.viewportFraction = 0, Widget? sliver})
-    : assert(viewportFraction >= 0),
-      assert(viewportFraction <= 0.5),
-      super(child: sliver);
+      : assert(viewportFraction >= 0),
+        assert(viewportFraction <= 0.5),
+        super(child: sliver);
 
   final double viewportFraction;
 
@@ -91,14 +91,15 @@ class _SliverUnboundedFractionalPadding extends SingleChildRenderObjectWidget {
 
 class _RenderUnboundedSliverFractionalPadding extends RenderSliverEdgeInsetsPadding {
   _RenderUnboundedSliverFractionalPadding({double viewportFraction = 0})
-    : assert(viewportFraction <= 0.5),
-      assert(viewportFraction >= 0),
-      _viewportFraction = viewportFraction;
+      : assert(viewportFraction <= 0.5),
+        assert(viewportFraction >= 0),
+        _viewportFraction = viewportFraction;
 
   SliverConstraints? _lastResolvedConstraints;
 
   double get viewportFraction => _viewportFraction;
   double _viewportFraction;
+
   set viewportFraction(double newValue) {
     if (_viewportFraction == newValue) {
       return;
@@ -172,9 +173,10 @@ class _SliverFlexiPageViewRenderObjectWidget extends SliverMultiBoxAdaptorWidget
 
 class RenderFlexiPageView extends RenderSliverFillViewport {
   RenderFlexiPageView({required super.childManager, required Alignment alignment, super.viewportFraction})
-    : _alignment = alignment;
+      : _alignment = alignment;
 
   Alignment get alignment => _alignment;
+
   set alignment(Alignment alignment) {
     if (alignment == _alignment) {
       return;
@@ -238,10 +240,9 @@ class RenderFlexiPageView extends RenderSliverFillViewport {
     const double deprecatedExtraItemExtent = -1;
 
     final int firstIndex = getMinChildIndexForScrollOffset(scrollOffset, deprecatedExtraItemExtent);
-    final int? targetLastIndex =
-        targetEndScrollOffset.isFinite
-            ? getMaxChildIndexForScrollOffset(targetEndScrollOffset, deprecatedExtraItemExtent)
-            : null;
+    final int? targetLastIndex = targetEndScrollOffset.isFinite
+        ? getMaxChildIndexForScrollOffset(targetEndScrollOffset, deprecatedExtraItemExtent)
+        : null;
 
     if (firstChild != null) {
       final int leadingGarbage = calculateLeadingGarbage(firstIndex: firstIndex);
@@ -297,11 +298,9 @@ class RenderFlexiPageView extends RenderSliverFillViewport {
     }
 
     double estimatedMaxScrollOffset = double.infinity;
-    for (
-      int index = indexOf(trailingChildWithLayout!) + 1;
-      targetLastIndex == null || index <= targetLastIndex;
-      ++index
-    ) {
+    for (int index = indexOf(trailingChildWithLayout!) + 1;
+        targetLastIndex == null || index <= targetLastIndex;
+        ++index) {
       RenderBox? child = childAfter(trailingChildWithLayout!);
       if (child == null || indexOf(child) != index) {
         child = insertAndLayoutChild(_getChildConstraints(index), after: trailingChildWithLayout, parentUsesSize: true);
@@ -346,10 +345,9 @@ class RenderFlexiPageView extends RenderSliverFillViewport {
     final double cacheExtent = calculateCacheOffset(constraints, from: leadingScrollOffset, to: trailingScrollOffset);
 
     final double targetEndScrollOffsetForPaint = constraints.scrollOffset + constraints.remainingPaintExtent;
-    final int? targetLastIndexForPaint =
-        targetEndScrollOffsetForPaint.isFinite
-            ? getMaxChildIndexForScrollOffset(targetEndScrollOffsetForPaint, deprecatedExtraItemExtent)
-            : null;
+    final int? targetLastIndexForPaint = targetEndScrollOffsetForPaint.isFinite
+        ? getMaxChildIndexForScrollOffset(targetEndScrollOffsetForPaint, deprecatedExtraItemExtent)
+        : null;
 
     geometry = SliverGeometry(
       scrollExtent: estimatedMaxScrollOffset,
@@ -398,8 +396,7 @@ class RenderFlexiPageView extends RenderSliverFillViewport {
     final page = _getPage();
     final fromChild = _laidOutChildren[page.floor()];
     final toChild = _laidOutChildren[page.ceil()];
-    var crossAxisSize =
-        _lerpDouble(
+    var crossAxisSize = _lerpDouble(
           fromChild?.size.crossAxisDimension(constraints.axis),
           toChild?.size.crossAxisDimension(constraints.axis),
           page - page.floorToDouble(),
@@ -408,7 +405,7 @@ class RenderFlexiPageView extends RenderSliverFillViewport {
     this.geometry = UnboundedSliverGeometry(existing: geometry, crossAxisSize: crossAxisSize);
 
     final minCrossAxisSize = constraints.crossAxisExtent; // as passed in by UnboundedViewport
-    crossAxisSize = math.max(minCrossAxisSize, crossAxisSize);
+    crossAxisSize = minCrossAxisSize.isFinite ? math.max(minCrossAxisSize, crossAxisSize) : crossAxisSize;
     for (final child in _laidOutChildren.values) {
       final childParentData = child.parentData! as _SliverFlexiPageViewParentData;
       final center = (crossAxisSize - child.size.crossAxisDimension(constraints.axis)) / 2;
@@ -438,27 +435,27 @@ class _SliverFlexiPageViewParentData extends SliverMultiBoxAdaptorParentData {
 extension on Size {
   // ignore: unused_element
   double mainAxisDimension(Axis axis) => switch (axis) {
-    Axis.horizontal => width,
-    Axis.vertical => height,
-  };
+        Axis.horizontal => width,
+        Axis.vertical => height,
+      };
 
   double crossAxisDimension(Axis axis) => switch (axis) {
-    Axis.horizontal => height,
-    Axis.vertical => width,
-  };
+        Axis.horizontal => height,
+        Axis.vertical => width,
+      };
 }
 
 extension on Alignment {
   // ignore: unused_element
   double mainAxisDimension(Axis axis) => switch (axis) {
-    Axis.horizontal => x,
-    Axis.vertical => y,
-  };
+        Axis.horizontal => x,
+        Axis.vertical => y,
+      };
 
   double crossAxisDimension(Axis axis) => switch (axis) {
-    Axis.horizontal => y,
-    Axis.vertical => x,
-  };
+        Axis.horizontal => y,
+        Axis.vertical => x,
+      };
 }
 
 double? _lerpDouble(num? a, num? b, double t) {

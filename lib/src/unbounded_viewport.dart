@@ -5,19 +5,19 @@ import 'package:flutter/widgets.dart';
 
 class UnboundedSliverGeometry extends SliverGeometry {
   UnboundedSliverGeometry({required SliverGeometry existing, required this.crossAxisSize})
-    : super(
-        scrollExtent: existing.scrollExtent,
-        paintExtent: existing.paintExtent,
-        paintOrigin: existing.paintOrigin,
-        layoutExtent: existing.layoutExtent,
-        maxPaintExtent: existing.maxPaintExtent,
-        maxScrollObstructionExtent: existing.maxScrollObstructionExtent,
-        hitTestExtent: existing.hitTestExtent,
-        visible: existing.visible,
-        hasVisualOverflow: existing.hasVisualOverflow,
-        scrollOffsetCorrection: existing.scrollOffsetCorrection,
-        cacheExtent: existing.cacheExtent,
-      );
+      : super(
+          scrollExtent: existing.scrollExtent,
+          paintExtent: existing.paintExtent,
+          paintOrigin: existing.paintOrigin,
+          layoutExtent: existing.layoutExtent,
+          maxPaintExtent: existing.maxPaintExtent,
+          maxScrollObstructionExtent: existing.maxScrollObstructionExtent,
+          hitTestExtent: existing.hitTestExtent,
+          visible: existing.visible,
+          hasVisualOverflow: existing.hasVisualOverflow,
+          scrollOffsetCorrection: existing.scrollOffsetCorrection,
+          cacheExtent: existing.cacheExtent,
+        );
 
   final double crossAxisSize;
 }
@@ -49,10 +49,10 @@ mixin _UnboundedRenderViewportMixin on RenderViewport {
   void performLayout() {
     final constraints = this.constraints;
     if (axis == Axis.horizontal) {
-      _unboundedSize = constraints.minHeight;
+      _unboundedSize = constraints.maxHeight;
       size = Size(constraints.maxWidth, constraints.minHeight);
     } else {
-      _unboundedSize = constraints.minWidth;
+      _unboundedSize = constraints.maxWidth;
       size = Size(constraints.minWidth, constraints.maxHeight);
     }
 
